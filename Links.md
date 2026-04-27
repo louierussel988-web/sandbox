@@ -2,6 +2,12 @@
 > Click on any link below to start downloading directly.<br><br/>
 
 
+### 📅 2026-04-27 21:58 IR
+- 🎬 [Tips For Analyzing Delphi Binaries in IDA (Danabot).mp4](https://github.com/louierussel988-web/sandbox/raw/main/dl/Tips%20For%20Analyzing%20Delphi%20Binaries%20in%20IDA%20%28Danabot%29.mp4) `11.6MB`
+
+---
+
+
 ### 📅 2026-04-27 20:24 IR
 - 🎬 [Scent of a Woman ｜ ＂I'll Show You Out of Order!＂.mp4](https://github.com/nscl5/sandbox/raw/main/dl/Scent%20of%20a%20Woman%20%EF%BD%9C%20%EF%BC%82I%27ll%20Show%20You%20Out%20of%20Order%21%EF%BC%82.mp4) `11.8MB`
 
