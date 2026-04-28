@@ -149,8 +149,8 @@ jobs:
               echo "Downloading direct file with aria2..."
               # Increased timeouts and added retries to handle connection instability
               aria2c --split=2 --max-connection-per-server=2 \
-                     --timeout=60 --connect-timeout=30 \
-                     --max-tries=5 --retry-wait=5 \
+                     --timeout=6000 --connect-timeout=3000 \
+                     --max-tries=50 --retry-wait=5 \
                      --dir="tmp_downloads" "$URL"
             fi
           done
