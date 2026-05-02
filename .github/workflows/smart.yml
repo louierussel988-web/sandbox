@@ -138,33 +138,32 @@ jobs:
             EXT_LOWER=$(echo "$EXT" | tr '[:upper:]' '[:lower:]')
 
             if [ "$SIZE" -gt "$LIMIT" ]; then
-              # Check if it's a video/audio file for FFmpeg
               if [[ "$EXT_LOWER" =~ ^(mp4|mkv|mov|avi|mp3|m4a|ts)$ ]]; then
                 echo "Splitting $BASENAME using FFmpeg..."
-                # Calculate interval: (Total Duration / (Total Size / Limit)) * 0.95 for safety
                 DURATION=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$FILE")
-                # Interval = Duration / (Size / Limit)
+                # Interval calculation
                 INTERVAL=$(python3 -c "print(int($DURATION / ($SIZE / $LIMIT)))")
                 
+                # We quote the output pattern to handle spaces
                 ffmpeg -i "$FILE" -c copy -f segment -segment_time $INTERVAL -reset_timestamps 1 "dl/${FILENAME}_part_%03d.$EXT"
                 
-                ls dl/${FILENAME}_part_* >> new_files.txt
+                # Safely find the created parts and append to new_files.txt
+                find dl/ -name "${FILENAME}_part_*" -printf "%f\n" >> new_files.txt
               else
                 echo "Splitting $BASENAME using ZIP..."
                 PASS_ARG=""
                 [ -n "$HAS_PASS" ] && PASS_ARG="-P $HAS_PASS"
                 zip $PASS_ARG -s 95m "dl/${BASENAME}.zip" -j "$FILE"
-                ls dl/${BASENAME}.z* >> new_files.txt
-                ls dl/${BASENAME}.zip >> new_files.txt
+                
+                # Safely list zip parts
+                find dl/ -name "${BASENAME}.z*" -printf "%f\n" >> new_files.txt
               fi
             else
               echo "Small file: Copying $BASENAME"
               cp "$FILE" "dl/$BASENAME"
-              echo "dl/$BASENAME" >> new_files.txt
+              echo "$BASENAME" >> new_files.txt
             fi
           done
-          # Clean up paths in new_files.txt to be just filenames
-          sed -i 's|dl/||g' new_files.txt
 
       - name: Update Links.md
         shell: bash
